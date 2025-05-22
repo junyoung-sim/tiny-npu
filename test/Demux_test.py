@@ -2,8 +2,7 @@ from TestUtil import *
 
 #==========================================================
 
-def demux_size(dut):
-  return len(dut.out)
+SIZE = 4
 
 #==========================================================
 
@@ -12,8 +11,7 @@ async def check(dut, in0, sel, out: []):
   dut.sel.value = sel
 
   await Timer(1, units="ns")
-
-  SIZE = demux_size(dut)
+  
   for i in range(SIZE):
     assert (dut.out[i].value == out[i].get())
 
@@ -21,8 +19,6 @@ async def check(dut, in0, sel, out: []):
 
 @cocotb.test()
 async def test_case_1_random(dut):
-  SIZE = demux_size(dut)
-
   trials = 10000
   for t in range(trials):
     in0 = rand_fp(NBITS, DBITS)

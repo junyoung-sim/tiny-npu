@@ -2,13 +2,11 @@ from TestUtil import *
 
 #==========================================================
 
-def mux_size(dut):
-  return len(dut.in0)
+SIZE = 4
 
 #==========================================================
 
 async def check(dut, in0: [], sel, out):
-  SIZE = mux_size(dut)
   for i in range(SIZE):
     dut.in0[i].value = in0[i].get()
   dut.sel.value = sel
@@ -21,7 +19,6 @@ async def check(dut, in0: [], sel, out):
 
 @cocotb.test()
 async def test_case_1_random(dut):
-  SIZE = mux_size(dut)
   
   trials = 10000
   for t in range(trials):
