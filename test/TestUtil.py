@@ -7,11 +7,6 @@ from cocotb.clock import Clock
 
 #==========================================================
 
-NBITS = 8
-DBITS = 4
-
-#==========================================================
-
 def zero_fp(n, d):
   return Fixed(0, 1, n, d, raw=True)
 
@@ -32,3 +27,10 @@ def init_clock(dut):
   return cocotb.start_soon (
     Clock(dut.clk, 1, units="ns").start(start_high=False)
   )
+
+#==========================================================
+
+NBITS = 8
+DBITS = 4
+
+ZERO_FP = zero_fp(NBITS, DBITS)
