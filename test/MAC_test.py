@@ -26,53 +26,57 @@ async def check (
 async def test_case_1_directed_istream(dut):
   clock = init_clock(dut)
 
-  await reset(dut)
+  trials = 100
+  for t in range(trials):
+    await reset(dut)
 
-  _sum = ZERO_FP
+    _sum = ZERO_FP
 
-  istream_len = 10000
-  for i in range(istream_len):
-    x_in = rand_fp(NBITS, DBITS)
-    w_in = rand_fp(NBITS, DBITS)
+    istream_len = 1000
+    for i in range(istream_len):
+      x_in = rand_fp(NBITS, DBITS)
+      w_in = rand_fp(NBITS, DBITS)
 
-    await check(dut, 1, 0, x_in, w_in, ZERO_FP)
+      await check(dut, 1, 0, x_in, w_in, ZERO_FP)
 
-    prod = mul_fp(x_in, w_in)
-    _sum = add_fp(_sum, prod)
+      prod = mul_fp(x_in, w_in)
+      _sum = add_fp(_sum, prod)
 
-  z_out = (ZERO_FP if(_sum < 0) else _sum)
+    z_out = (ZERO_FP if(_sum < 0) else _sum)
 
-  await check(dut, 0, 0, ZERO_FP, ZERO_FP, ZERO_FP)
-  await check(dut, 0, 0, ZERO_FP, ZERO_FP, ZERO_FP)
-  await check(dut, 0, 1, ZERO_FP, ZERO_FP, ZERO_FP)
-  await check(dut, 0, 0, ZERO_FP, ZERO_FP, z_out)
+    await check(dut, 0, 0, ZERO_FP, ZERO_FP, ZERO_FP)
+    await check(dut, 0, 0, ZERO_FP, ZERO_FP, ZERO_FP)
+    await check(dut, 0, 1, ZERO_FP, ZERO_FP, ZERO_FP)
+    await check(dut, 0, 0, ZERO_FP, ZERO_FP, z_out)
 
 @cocotb.test()
 async def test_case_2_random_istream(dut):
   clock = init_clock(dut)
 
-  await reset(dut)
+  trials = 100
+  for t in range(trials):
+    await reset(dut)
 
-  _sum = ZERO_FP
+    _sum = ZERO_FP
 
-  istream_len = 10000
-  while(istream_len != 0):
-    x_in = rand_fp(NBITS, DBITS)
-    w_in = rand_fp(NBITS, DBITS)
+    istream_len = 1000
+    while(istream_len != 0):
+      x_in = rand_fp(NBITS, DBITS)
+      w_in = rand_fp(NBITS, DBITS)
 
-    istream_val = random.randint(0, 1)
-    await check (
-      dut, istream_val, 0, x_in, w_in, ZERO_FP
-    )
+      istream_val = random.randint(0, 1)
+      await check (
+        dut, istream_val, 0, x_in, w_in, ZERO_FP
+      )
 
-    if(istream_val):
-      prod = mul_fp(x_in, w_in)
-      _sum = add_fp(_sum, prod)
-      istream_len -= 1
-  
-  z_out = (ZERO_FP if(_sum < 0) else _sum)
+      if(istream_val):
+        prod = mul_fp(x_in, w_in)
+        _sum = add_fp(_sum, prod)
+        istream_len -= 1
+    
+    z_out = (ZERO_FP if(_sum < 0) else _sum)
 
-  await check(dut, 0, 0, ZERO_FP, ZERO_FP, ZERO_FP)
-  await check(dut, 0, 0, ZERO_FP, ZERO_FP, ZERO_FP)
-  await check(dut, 0, 1, ZERO_FP, ZERO_FP, ZERO_FP)
-  await check(dut, 0, 0, ZERO_FP, ZERO_FP, z_out)
+    await check(dut, 0, 0, ZERO_FP, ZERO_FP, ZERO_FP)
+    await check(dut, 0, 0, ZERO_FP, ZERO_FP, ZERO_FP)
+    await check(dut, 0, 1, ZERO_FP, ZERO_FP, ZERO_FP)
+    await check(dut, 0, 0, ZERO_FP, ZERO_FP, z_out)
