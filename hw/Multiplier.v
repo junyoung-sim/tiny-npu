@@ -4,10 +4,10 @@
 module Multiplier
 #(
   parameter NBITS = 8,
-  parameter DBITS = 4,
+  parameter DBITS = 4
 )(
   input  logic [NBITS-1:0] in0,
-  input  logic [NBITS-1:0] in0,
+  input  logic [NBITS-1:0] in1,
   output logic [NBITS-1:0] out
 );
 

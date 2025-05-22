@@ -1,0 +1,6 @@
+*.vcd
+*.key
+*.xml
+*.log
+test/sim_build/
+test/coverage_report
