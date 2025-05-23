@@ -1,8 +1,8 @@
 `ifndef FIFO_V
 `define FIFO_V
 
-`include "FIFO_ReadPtr.v"
-`include "FIFO_WritePtr.v"
+`include "ReadPtr.v"
+`include "WritePtr.v"
 
 module FIFO
 #(
@@ -32,7 +32,7 @@ module FIFO
   // R/W Pointers
   //=======================================================
 
-  FIFO_ReadPtr #(DEPTH) r_ptr_blk
+  ReadPtr #(DEPTH) r_ptr_blk
   (
     .clk   (clk),
     .rst   (rst),
@@ -42,7 +42,7 @@ module FIFO
     .empty (_empty)
   );
 
-  FIFO_WritePtr #(DEPTH) w_ptr_blk
+  WritePtr #(DEPTH) w_ptr_blk
   (
     .clk   (clk),
     .rst   (rst),

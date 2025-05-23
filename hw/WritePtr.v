@@ -1,7 +1,7 @@
-`ifndef FIFO_WRITEPTR_V
-`define FIFO_WRITEPTR_V
+`ifndef WRITEPTR_V
+`define WRITEPTR_V
 
-module FIFO_WritePtr
+module WritePtr
 #(
   parameter DEPTH     = 4,
   parameter PTR_WIDTH = $clog2(DEPTH) + 1

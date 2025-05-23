@@ -1,7 +1,7 @@
-`ifndef FIFO_READPTR_V
-`define FIFO_READPTR_V
+`ifndef READPTR_V
+`define READPTR_V
 
-module FIFO_ReadPtr
+module ReadPtr
 #(
   parameter DEPTH     = 4,
   parameter PTR_WIDTH = $clog2(DEPTH) + 1
