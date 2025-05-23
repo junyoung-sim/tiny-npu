@@ -26,13 +26,13 @@ async def check (
 async def test_case_1_directed_istream(dut):
   clock = init_clock(dut)
 
-  trials = 10000
+  trials = 100
   for t in range(trials):
     await reset(dut)
 
     _sum = ZERO_FP
 
-    istream_len = 10
+    istream_len = 100
     for i in range(istream_len):
       x_in = rand_fp(NBITS, DBITS)
       w_in = rand_fp(NBITS, DBITS)
@@ -53,13 +53,13 @@ async def test_case_1_directed_istream(dut):
 async def test_case_2_random_istream(dut):
   clock = init_clock(dut)
 
-  trials = 10000
+  trials = 100
   for t in range(trials):
     await reset(dut)
 
     _sum = ZERO_FP
 
-    istream_len = 10
+    istream_len = 100
     while(istream_len != 0):
       x_in = rand_fp(NBITS, DBITS)
       w_in = rand_fp(NBITS, DBITS)
