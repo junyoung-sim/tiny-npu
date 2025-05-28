@@ -40,6 +40,25 @@ async def check_LD0 (
   
   assert (dut.trace_state.value == trace_state)
 
+async def check_MAC (
+  dut, d2c_x_fifo_empty, d2c_w_fifo_empty: [],
+  c2d_istream_val, c2d_x_fifo_ren, c2d_w_fifo_ren, c2d_ostream_req, trace_state
+):
+  dut.rst.value = 0
+  dut.d2c_x_fifo_empty.value = d2c_x_fifo_empty
+
+  for i in range(SIZE):
+    dut.d2c_w_fifo_empty[i].value = d2c_w_fifo_empty[i]
+  
+  await RisingEdge(dut.clk)
+
+  assert (dut.c2d_istream_val.value == c2d_istream_val)
+  assert (dut.c2d_x_fifo_ren.value == c2d_x_fifo_ren)
+  assert (dut.c2d_w_fifo_ren.value == c2d_w_fifo_ren)
+  assert (dut.c2d_ostream_req.value == c2d_ostream_req)
+
+  assert (dut.trace_state.value == trace_state)
+
 #==========================================================
 
 @cocotb.test()
@@ -62,5 +81,32 @@ async def test_case_1_directed_LD0(dut):
 
   # state transition (LD0 -> MAC)
   await check_LD0(dut, 0, 0, 0, 1, 0, 0, [0,0,0,0], LD0)
-  await check_LD0(dut, 0, 0, 0, 0, x, 0, [0,0,0,0], MAC)
+  await check_MAC(dut, 0, [0,0,0,0], 1, 1, 1, 0, MAC)
 
+#==========================================================
+
+@cocotb.test()
+async def test_case_2_directed_MAC(dut):
+  clock = init_clock(dut)
+
+  await reset(dut)
+
+  # state transition (LD0 -> MAC)
+  await check_LD0(dut, 0, 0, 0, 1, 0, 0, [0,0,0,0], LD0)
+  await check_MAC(dut, 0, [0,0,0,0], 1, 1, 1, 0, MAC)
+
+  # feedforward
+  await check_MAC(dut, 0, [0,0,0,0], 1, 1, 1, 0, MAC)
+  await check_MAC(dut, 0, [0,0,0,0], 1, 1, 1, 0, MAC)
+  await check_MAC(dut, 0, [0,0,0,0], 1, 1, 1, 0, MAC)
+  await check_MAC(dut, 0, [0,0,0,0], 1, 1, 1, 0, MAC)
+
+  # empty FIFOs
+  await check_MAC(dut, 1, [1,1,1,1], 0, 0, 0, 0, MAC)
+
+  # MAC output stream latency
+  await check_MAC(dut, 1, [1,1,1,1], 0, 0, 0, 0, MAC)
+  await check_MAC(dut, 1, [1,1,1,1], 0, 0, 0, 1, MAC)
+
+  # state transition (MAC -> LD1)
+  await check_MAC(dut, 1, [1,1,1,1], 0, 0, 0, 0, LD1)
