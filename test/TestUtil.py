@@ -5,7 +5,7 @@ from fixedpt import Fixed
 from cocotb.triggers import *
 from cocotb.clock import Clock
 
-#==========================================================
+#===========================================================
 
 def zero_fp(n, d):
   return Fixed(0, 1, n, d, raw=True)
@@ -21,14 +21,14 @@ def add_fp(a: Fixed, b: Fixed):
 def mul_fp(a: Fixed, b: Fixed):
   return (a * b).resize(None, a._n, a._d)
 
-#==========================================================
+#===========================================================
 
 def init_clock(dut):
   return cocotb.start_soon (
     Clock(dut.clk, 1, units="ns").start(start_high=False)
   )
 
-#==========================================================
+#===========================================================
 
 NBITS = 8
 DBITS = 4

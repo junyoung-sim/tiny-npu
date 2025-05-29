@@ -34,7 +34,7 @@ module TinyNPU_ctrl
   output logic                    c2d_w_fifo_ren,
   output logic                    c2d_ostream_req,
 
-  output logic                    c2d_ostream_sel,
+  output logic [$clog2(SIZE):0]   c2d_ostream_sel,
   output logic                    c2d_mac_rst,
 
   output logic [3:0] trace_state
@@ -106,7 +106,7 @@ module TinyNPU_ctrl
     (state == `MAC) & (state_next == `LD1)
   );
 
-  Reg #($clog2(SIZE)) ostream_sel_reg
+  Reg #($clog2(SIZE)+1) ostream_sel_reg
   (
     .clk (clk),
     .rst (rst | ostream_sel_reg_rst),
@@ -169,13 +169,13 @@ module TinyNPU_ctrl
       );
     end
 
-    c2d_istream_val = (state == `MAC) & ~empty;
-    c2d_x_fifo_ren  = (state == `MAC) & ~empty;
-    c2d_w_fifo_ren  = (state == `MAC) & ~empty;
+    c2d_istream_val = ((state == `MAC) & ~empty);
+    c2d_x_fifo_ren  = ((state == `MAC) & ~empty);
+    c2d_w_fifo_ren  = ((state == `MAC) & ~empty);
     c2d_ostream_req = mac_ostream_rdy;
 
     c2d_ostream_sel = ostream_sel;
-    c2d_mac_rst     = ostream_fifo_rdy;
+    c2d_mac_rst     = ((state == `LD1) & ostream_fifo_rdy);
   end
 
 endmodule
