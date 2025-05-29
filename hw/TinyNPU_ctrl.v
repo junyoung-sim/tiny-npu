@@ -23,6 +23,8 @@ module TinyNPU_ctrl
   input  logic                    d2c_x_fifo_empty,
   input  logic                    d2c_w_fifo_empty [SIZE],
 
+  input  logic                    d2c_out_val,
+
   output logic                    c2d_x_sel,
   output logic                    c2d_x_fifo_wen,
   output logic                    c2d_w_fifo_wen [SIZE],
@@ -31,6 +33,9 @@ module TinyNPU_ctrl
   output logic                    c2d_x_fifo_ren,
   output logic                    c2d_w_fifo_ren,
   output logic                    c2d_ostream_req,
+
+  output logic                    c2d_ostream_sel,
+  output logic                    c2d_mac_rst,
 
   output logic [3:0] trace_state
 );
@@ -79,13 +84,48 @@ module TinyNPU_ctrl
     .q   (mac_lat)
   );
 
+  // MAC Output Stream Selection
+
+  logic [$clog2(SIZE):0] ostream_sel;
+  logic [$clog2(SIZE):0] ostream_sel_next;
+
+  always_comb begin
+    ostream_sel_next = (ostream_sel + 1);
+  end
+
+  logic ostream_fifo_rdy;
+  assign ostream_fifo_rdy = (ostream_sel == SIZE);
+
+  logic ostream_load_state;
+  assign ostream_load_state = (
+    (state == `LD1) & ~ostream_fifo_rdy
+  );
+
+  Reg #($clog2(SIZE)) ostream_sel_reg
+  (
+    .clk (clk),
+    .rst (rst | ostream_fifo_rdy),
+    .en  (ostream_load_state),
+    .d   (ostream_sel_next),
+    .q   (ostream_sel)
+  );
+
   // State Register
+
+  logic [1:0] ld1_state_next;
+
+  always_comb begin
+    if(~ostream_fifo_rdy | ~(d2c_mac_val ^ d2c_out_val))
+      ld1_state_next = `LD1;
+    else
+      ld1_state_next = (d2c_mac_val ? `MAC : `OUT);
+  end
 
   always_comb begin
     case(state)
       `LD0:    state_next = (d2c_mac_val ? `MAC : `LD0);
       `MAC:    state_next = (mac_ostream_rdy ? `LD1 : `MAC);
-      `LD1:    state_next = `LD1; // TBD
+      `LD1:    state_next = ld1_state_next;
       `OUT:    state_next = `OUT; // TBD
       default: state_next = `LD0;
     endcase
@@ -104,12 +144,6 @@ module TinyNPU_ctrl
   // Output Logic
   //==========================================================
 
-  logic fifo_wen_state;
-  assign fifo_wen_state = (((state == `LD0) | (state == `LD1)));
-
-  logic mac_val_state;
-  assign mac_val_state = ((state == `MAC) & ~empty);
-
   always_comb begin
     case(state)
       `LD0:    c2d_x_sel =  0;
@@ -119,18 +153,24 @@ module TinyNPU_ctrl
       default: c2d_x_sel =  0;
     endcase
 
-    c2d_x_fifo_wen = (fifo_wen_state & d2c_x_load_val);
+    c2d_x_fifo_wen = (
+      ((state == `LD0) & d2c_x_load_val) | ostream_load_state
+    );
 
     for(int i = 0; i < SIZE; i++) begin
       c2d_w_fifo_wen[i] = (
-        fifo_wen_state & d2c_w_load_val & (i == d2c_w_load_sel)
+          ((state == `LD0) | (state == `LD1)) 
+        & d2c_w_load_val & (i == d2c_w_load_sel)
       );
     end
 
-    c2d_istream_val = mac_val_state;
-    c2d_x_fifo_ren  = mac_val_state;
-    c2d_w_fifo_ren  = mac_val_state;
+    c2d_istream_val = (state == `MAC) & ~empty;
+    c2d_x_fifo_ren  = (state == `MAC) & ~empty;
+    c2d_w_fifo_ren  = (state == `MAC) & ~empty;
     c2d_ostream_req = mac_ostream_rdy;
+
+    c2d_ostream_sel = ostream_sel;
+    c2d_mac_rst     = ostream_fifo_rdy;
   end
 
 endmodule
