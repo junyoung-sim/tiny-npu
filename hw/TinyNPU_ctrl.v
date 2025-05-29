@@ -39,6 +39,11 @@ module TinyNPU_ctrl
   // State Transition
   //==========================================================
 
+  logic [1:0] state;
+  logic [1:0] state_next;
+  
+  assign trace_state = state;
+
   // FIFO Status
 
   logic empty;
@@ -50,24 +55,6 @@ module TinyNPU_ctrl
     end
   end
 
-  // Critical States
-
-  logic [1:0] state;
-  logic [1:0] state_next;
-  
-  assign trace_state = state;
-
-  logic fifo_wen_state;
-  assign fifo_wen_state = (
-    ((state == `LD0) | (state == `LD1))
-  );
-
-  logic mac_val_state;
-  assign mac_val_state = ((state == `MAC) & ~empty);
-
-  logic mac_lat_state;
-  assign mac_lat_state = ((state == `MAC) & empty);
-
   // MAC Output Stream Latency Counter
 
   logic [1:0] mac_lat;
@@ -76,6 +63,9 @@ module TinyNPU_ctrl
   always_comb begin
     mac_lat_next = (mac_lat + 1);
   end
+
+  logic mac_lat_state;
+  assign mac_lat_state = ((state == `MAC) & empty);
 
   logic mac_ostream_rdy;
   assign mac_ostream_rdy = (mac_lat == 2'b10);
@@ -113,6 +103,14 @@ module TinyNPU_ctrl
   //==========================================================
   // Output Logic
   //==========================================================
+
+  logic fifo_wen_state;
+  assign fifo_wen_state = (
+    ((state == `LD0) | (state == `LD1))
+  );
+
+  logic mac_val_state;
+  assign mac_val_state = ((state == `MAC) & ~empty);
 
   always_comb begin
     case(state)
