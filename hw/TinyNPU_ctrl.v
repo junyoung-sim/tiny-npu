@@ -1,10 +1,12 @@
 `ifndef TINYNPU_CTRL_V
 `define TINYNPU_CTRL_V
 
-`define LD0 4'b0001
-`define MAC 4'b0010
-`define LD1 4'b0100
-`define OUT 4'b1000
+`include "Reg.v"
+
+`define LD0 2'b00
+`define MAC 2'b01
+`define LD1 2'b10
+`define OUT 2'b11
 
 module TinyNPU_ctrl
 #(
@@ -50,7 +52,9 @@ module TinyNPU_ctrl
 
   // Critical States
 
-  logic [3:0] state;
+  logic [1:0] state;
+  logic [1:0] state_next;
+  
   assign trace_state = state;
 
   logic fifo_wen_state;
@@ -67,32 +71,44 @@ module TinyNPU_ctrl
   // MAC Output Stream Latency Counter
 
   logic [1:0] mac_lat;
+  logic [1:0] mac_lat_next;
   
+  always_comb begin
+    mac_lat_next = (mac_lat + 1);
+  end
+
   logic mac_ostream_rdy;
   assign mac_ostream_rdy = (mac_lat == 2'b10);
 
-  always_ff @(posedge clk) begin
-    if(rst | mac_ostream_rdy)
-      mac_lat <= 0;
-    else
-      mac_lat <= mac_lat + mac_lat_state;
-  end
+  Reg #(2) mac_lat_counter
+  (
+    .clk (clk),
+    .rst (rst | mac_ostream_rdy),
+    .en  (mac_lat_state),
+    .d   (mac_lat_next),
+    .q   (mac_lat)
+  );
 
   // State Register
 
-  always_ff @(posedge clk) begin
-    if(rst)
-      state <= `LD0;
-    else begin
-      case(state)
-        `LD0:    state <= (d2c_mac_val ? `MAC : `LD0);
-        `MAC:    state <= (mac_ostream_rdy ? `LD1 : `MAC);
-        `LD1:    state <= `LD1; // TBD
-        `OUT:    state <= `OUT; // TBD
-        default: state <= `LD0;
-      endcase
-    end
+  always_comb begin
+    case(state)
+      `LD0:    state_next <= (d2c_mac_val ? `MAC : `LD0);
+      `MAC:    state_next <= (mac_ostream_rdy ? `LD1 : `MAC);
+      `LD1:    state_next <= `LD1; // TBD
+      `OUT:    state_next <= `OUT; // TBD
+      default: state_next <= `LD0;
+    endcase
   end
+
+  Reg #(2) state_reg
+  (
+    .clk (clk),
+    .rst (rst),
+    .en  (1),
+    .d   (state_next),
+    .q   (state)
+  );
 
   //=======================================================
   // Output Logic

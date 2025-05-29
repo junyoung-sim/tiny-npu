@@ -4,10 +4,10 @@ from TestUtil import *
 
 SIZE = 4
 
-LD0 = 0b0001
-MAC = 0b0010
-LD1 = 0b0100
-OUT = 0b1000
+LD0 = 0b00
+MAC = 0b01
+LD1 = 0b10
+OUT = 0b11
 
 x = 'x'
 
