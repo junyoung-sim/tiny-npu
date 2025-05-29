@@ -105,9 +105,7 @@ module TinyNPU_ctrl
   //==========================================================
 
   logic fifo_wen_state;
-  assign fifo_wen_state = (
-    ((state == `LD0) | (state == `LD1))
-  );
+  assign fifo_wen_state = (((state == `LD0) | (state == `LD1)));
 
   logic mac_val_state;
   assign mac_val_state = ((state == `MAC) & ~empty);
