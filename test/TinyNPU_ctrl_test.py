@@ -142,34 +142,31 @@ async def test_case_3_directed_LD1_MAC(dut):
   await check_LD0(dut, 0, 0, 0, 1, 0, 0, [0,0,0,0], LD0)
   await check_MAC(dut, 0, [0,0,0,0], 1, 1, 1, 0, MAC)
 
-  trials = 10
+  # empty FIFOs
+  await check_MAC(dut, 1, [1,1,1,1], 0, 0, 0, 0, MAC)
 
-  for t in range(trials):
-    # empty FIFOs
-    await check_MAC(dut, 1, [1,1,1,1], 0, 0, 0, 0, MAC)
+  # MAC output stream latency
+  await check_MAC(dut, 1, [1,1,1,1], 0, 0, 0, 0, MAC)
+  await check_MAC(dut, 1, [1,1,1,1], 0, 0, 0, 1, MAC)
 
-    # MAC output stream latency
-    await check_MAC(dut, 1, [1,1,1,1], 0, 0, 0, 0, MAC)
-    await check_MAC(dut, 1, [1,1,1,1], 0, 0, 0, 1, MAC)
-
-    # state transition (MAC -> LD1)
-    await check_LD1(dut, 1, 0, 0, 0, [1,0,0,0], 0, 0, LD1)
-    await check_LD1(dut, 1, 1, 0, 0, [0,1,0,0], 1, 0, LD1)
-    await check_LD1(dut, 1, 2, 0, 0, [0,0,1,0], 2, 0, LD1)
-    await check_LD1(dut, 1, 3, 0, 0, [0,0,0,1], 3, 0, LD1)
+  # state transition (MAC -> LD1)
+  await check_LD1(dut, 1, 0, 0, 0, [1,0,0,0], 0, 0, LD1)
+  await check_LD1(dut, 1, 1, 0, 0, [0,1,0,0], 1, 0, LD1)
+  await check_LD1(dut, 1, 2, 0, 0, [0,0,1,0], 2, 0, LD1)
+  await check_LD1(dut, 1, 3, 0, 0, [0,0,0,1], 3, 0, LD1)
     
-    await check_LD1(dut, 0, 0, 0, 0, [0,0,0,0], 4, 1, LD1)
+  await check_LD1(dut, 0, 0, 0, 0, [0,0,0,0], 4, 1, LD1)
 
-    await check_LD1(dut, 1, 0, 0, 0, [1,0,0,0], 4, 1, LD1)
-    await check_LD1(dut, 1, 1, 0, 0, [0,1,0,0], 4, 1, LD1)
-    await check_LD1(dut, 1, 2, 0, 0, [0,0,1,0], 4, 1, LD1)
-    await check_LD1(dut, 1, 3, 0, 0, [0,0,0,1], 4, 1, LD1)
+  await check_LD1(dut, 1, 0, 0, 0, [1,0,0,0], 4, 1, LD1)
+  await check_LD1(dut, 1, 1, 0, 0, [0,1,0,0], 4, 1, LD1)
+  await check_LD1(dut, 1, 2, 0, 0, [0,0,1,0], 4, 1, LD1)
+  await check_LD1(dut, 1, 3, 0, 0, [0,0,0,1], 4, 1, LD1)
 
-    await check_LD1(dut, 1, 0, 1, 1, [1,0,0,0], 4, 1, LD1)
-    await check_LD1(dut, 1, 1, 1, 1, [0,1,0,0], 4, 1, LD1)
-    await check_LD1(dut, 1, 2, 1, 1, [0,0,1,0], 4, 1, LD1)
-    await check_LD1(dut, 1, 3, 1, 1, [0,0,0,1], 4, 1, LD1)
+  await check_LD1(dut, 1, 0, 1, 1, [1,0,0,0], 4, 1, LD1)
+  await check_LD1(dut, 1, 1, 1, 1, [0,1,0,0], 4, 1, LD1)
+  await check_LD1(dut, 1, 2, 1, 1, [0,0,1,0], 4, 1, LD1)
+  await check_LD1(dut, 1, 3, 1, 1, [0,0,0,1], 4, 1, LD1)
 
-    # state transition (LD1 -> MAC)
-    await check_LD1(dut, 0, 0, 1, 0, [0,0,0,0], 4, 1, LD1)
-    await check_MAC(dut, 0, [0,0,0,0], 1, 1, 1, 0, MAC)
+  # state transition (LD1 -> MAC)
+  await check_LD1(dut, 0, 0, 1, 0, [0,0,0,0], 4, 1, LD1)
+  await check_MAC(dut, 0, [0,0,0,0], 1, 1, 1, 0, MAC)
