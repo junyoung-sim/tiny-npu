@@ -101,10 +101,15 @@ module TinyNPU_ctrl
     (state == `LD1) & ~ostream_fifo_rdy
   );
 
+  logic ostream_sel_reg_rst;
+  assign ostream_sel_reg_rst = (
+    (state == `MAC) & (state_next == `LD1)
+  );
+
   Reg #($clog2(SIZE)) ostream_sel_reg
   (
     .clk (clk),
-    .rst (rst | ostream_fifo_rdy),
+    .rst (rst | ostream_sel_reg_rst),
     .en  (ostream_load_state),
     .d   (ostream_sel_next),
     .q   (ostream_sel)
