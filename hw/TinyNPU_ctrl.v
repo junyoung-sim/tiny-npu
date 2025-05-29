@@ -93,11 +93,11 @@ module TinyNPU_ctrl
 
   always_comb begin
     case(state)
-      `LD0:    state_next <= (d2c_mac_val ? `MAC : `LD0);
-      `MAC:    state_next <= (mac_ostream_rdy ? `LD1 : `MAC);
-      `LD1:    state_next <= `LD1; // TBD
-      `OUT:    state_next <= `OUT; // TBD
-      default: state_next <= `LD0;
+      `LD0:    state_next = (d2c_mac_val ? `MAC : `LD0);
+      `MAC:    state_next = (mac_ostream_rdy ? `LD1 : `MAC);
+      `LD1:    state_next = `LD1; // TBD
+      `OUT:    state_next = `OUT; // TBD
+      default: state_next = `LD0;
     endcase
   end
 
