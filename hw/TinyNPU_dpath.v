@@ -20,6 +20,8 @@ module TinyNPU_dpath
   input logic w_load_val,
   input logic [$clog2(SIZE)-1:0] w_load_sel,
 
+  output logic [NBITS-1:0] z_out,
+
   //
 
   input logic c2d_x_sel,
@@ -28,6 +30,8 @@ module TinyNPU_dpath
 
   input logic c2d_x_fifo_ren,
   input logic c2d_w_fifo_ren,
+
+  input logic c2d_z_out_sel,
 
   //
 
@@ -81,6 +85,22 @@ module TinyNPU_dpath
   );
 
   //=======================================================
+  // Output Mux
+  //=======================================================
+
+  logic [NBITS-1:0] _z_out [2];
+
+  assign _z_out[0] = 0;
+  assign _z_out[1] = x;
+
+  Mux #(2, NBITS) out_mux
+  (
+    .in0 (_z_out),
+    .sel (c2d_z_out_sel),
+    .out (z_out)
+  );
+
+  //=======================================================
   // Weight Demux
   //=======================================================
 
@@ -122,4 +142,4 @@ module TinyNPU_dpath
 
 endmodule
 
-`endif`
+`endif

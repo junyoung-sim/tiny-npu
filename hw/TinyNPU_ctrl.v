@@ -37,6 +37,8 @@ module TinyNPU_ctrl
   output logic [$clog2(SIZE):0]   c2d_ostream_sel,
   output logic                    c2d_mac_rst,
 
+  output logic                    c2d_z_out_sel,
+
   output logic [3:0] trace_state
 );
 
@@ -151,11 +153,11 @@ module TinyNPU_ctrl
 
   always_comb begin
     case(state)
-      `LD0:    c2d_x_sel =  0;
-      `MAC:    c2d_x_sel = 'x;
-      `LD1:    c2d_x_sel =  1;
-      `OUT:    c2d_x_sel = 'x;
-      default: c2d_x_sel =  0;
+      `LD0:    begin c2d_x_sel =  0; c2d_z_out_sel = 0; end
+      `MAC:    begin c2d_x_sel = 'x; c2d_z_out_sel = 0; end
+      `LD1:    begin c2d_x_sel =  1; c2d_z_out_sel = 0; end
+      `OUT:    begin c2d_x_sel = 'x; c2d_z_out_sel = 1; end
+      default: begin c2d_x_sel =  0; c2d_z_out_sel = 0; end
     endcase
 
     c2d_x_fifo_wen = (
