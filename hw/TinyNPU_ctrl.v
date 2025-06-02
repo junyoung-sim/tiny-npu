@@ -18,11 +18,11 @@ module TinyNPU_ctrl
   input  logic                    d2c_x_load_val,
   input  logic                    d2c_w_load_val,
   input  logic [$clog2(SIZE)-1:0] d2c_w_load_sel,
-  input  logic                    d2c_mac_val,
 
   input  logic                    d2c_x_fifo_empty,
   input  logic                    d2c_w_fifo_empty [SIZE],
 
+  input  logic                    d2c_mac_val,
   input  logic                    d2c_out_val,
 
   output logic                    c2d_x_sel,

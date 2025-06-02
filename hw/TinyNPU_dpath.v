@@ -2,6 +2,7 @@
 `define TINYNPU_DPATH_V
 
 `include "Mux.v"
+`include "MAC.v"
 `include "FIFO.v"
 
 module TinyNPU_dpath
@@ -10,40 +11,56 @@ module TinyNPU_dpath
   parameter NBITS = 8,
   parameter DBITS = 4
 )(
-  input logic clk,
-  input logic rst,
+  input  logic                    clk,
+  input  logic                    rst,
 
-  input logic [NBITS-1:0] x_in,
-  input logic [NBITS-1:0] w_in,
+  // I/O
 
-  input logic x_load_val,
-  input logic w_load_val,
-  input logic [$clog2(SIZE)-1:0] w_load_sel,
+  input  logic [NBITS-1:0]        x_in,
+  input  logic [NBITS-1:0]        w_in,
 
-  output logic [NBITS-1:0] z_out,
+  input  logic                    x_load_val,
+  input  logic                    w_load_val,
+  input  logic [$clog2(SIZE)-1:0] w_load_sel,
+  
+  input  logic                    mac_val,
+  input  logic                    out_val,
 
-  //
+  output logic [NBITS-1:0]        z_out,
 
-  input logic c2d_x_sel,
-  input logic c2d_x_fifo_wen,
-  input logic c2d_w_fifo_wen [SIZE],
+  // Control
 
-  input logic c2d_x_fifo_ren,
-  input logic c2d_w_fifo_ren,
+  input  logic                    c2d_x_sel,
+  input  logic                    c2d_x_fifo_wen,
+  input  logic                    c2d_w_fifo_wen [SIZE],
 
-  input logic c2d_z_out_sel,
+  input  logic                    c2d_istream_val,
+  input  logic                    c2d_x_fifo_ren,
+  input  logic                    c2d_w_fifo_ren,
+  input  logic                    c2d_ostream_req,
 
-  //
+  input  logic [$clog2(SIZE):0]   c2d_ostream_sel,
+  input  logic                    c2d_mac_rst,
 
-  output logic d2c_x_load_val,
-  output logic d2c_w_load_val,
+  input  logic                    c2d_z_out_sel,
+
+  // Status
+
+  output logic                    d2c_x_load_val,
+  output logic                    d2c_w_load_val,
   output logic [$clog2(SIZE)-1:0] d2c_w_load_sel,
 
-  output logic d2c_x_fifo_empty,
-  output logic d2c_w_fifo_empty [SIZE]
+  output logic                    d2c_x_fifo_empty,
+  output logic                    d2c_w_fifo_empty [SIZE],
+
+  output logic                    d2c_mac_val,
+  output logic                    d2c_out_val
 );
 
   genvar i;
+
+  assign d2c_mac_val = mac_val;
+  assign d2c_out_val = out_val;
 
   //=======================================================
   // Input Mux
@@ -53,7 +70,6 @@ module TinyNPU_dpath
   logic [NBITS-1:0] x_mux_out;
 
   assign x_mux_in[0] = x_in;
-  assign x_mux_in[1] = 0;    // REPLACE
 
   Mux #(2, NBITS) x_mux
   (
@@ -139,6 +155,38 @@ module TinyNPU_dpath
       );
     end
   endgenerate
+
+  //=======================================================
+  // MAC
+  //=======================================================
+
+  logic [NBITS-1:0] mac_out [SIZE];
+
+  generate
+    for(i = 0; i < SIZE; i++) begin: g_pe
+      MAC #(NBITS, DBITS) pe
+      (
+        .clk         (clk),
+        .rst         (rst | c2d_mac_rst),
+        .istream_val (c2d_istream_val),
+        .ostream_req (c2d_ostream_req),
+        .x_in        (x),
+        .w_in        (w[i]),
+        .z_out       (mac_out[i])
+      );
+    end
+  endgenerate
+
+  //=======================================================
+  // MAC Output Mux
+  //=======================================================
+
+  Mux #(SIZE, NBITS) mac_mux
+  (
+    .in0 (mac_out),
+    .sel (c2d_ostream_sel),
+    .out (x_mux_in[1])
+  );
 
 endmodule
 
