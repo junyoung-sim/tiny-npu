@@ -131,7 +131,7 @@ module TinyNPU_ctrl
       `LD0:    state_next = (d2c_mac_val ? `MAC : `LD0);
       `MAC:    state_next = (mac_ostream_rdy ? `LD1 : `MAC);
       `LD1:    state_next = ld1_state_next;
-      `OUT:    state_next = `OUT; // TBD
+      `OUT:    state_next = `OUT;
       default: state_next = `LD0;
     endcase
   end
@@ -170,8 +170,12 @@ module TinyNPU_ctrl
     end
 
     c2d_istream_val = ((state == `MAC) & ~empty);
-    c2d_x_fifo_ren  = ((state == `MAC) & ~empty);
-    c2d_w_fifo_ren  = ((state == `MAC) & ~empty);
+    c2d_x_fifo_ren  = (
+      ((state == `MAC) | (state == `OUT)) & ~empty
+    );
+    c2d_w_fifo_ren  = (
+      ((state == `MAC) | (state == `OUT)) & ~empty
+    );
     c2d_ostream_req = mac_ostream_rdy;
 
     c2d_ostream_sel = ostream_sel;
