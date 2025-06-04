@@ -21,6 +21,15 @@ def add_fp(a: Fixed, b: Fixed):
 def mul_fp(a: Fixed, b: Fixed):
   return (a * b).resize(None, a._n, a._d)
 
+def dot_fp(a: [], b: [], n, d):
+  dot = zero_fp(n, d)
+  for i in range(len(a)):
+    dot = add_fp(dot, mul_fp(a[i], b[i]))
+  return dot
+
+def relu_fp(x: Fixed):
+  return (zero_fp(NBITS, DBITS) if (x < 0) else x)
+
 #===========================================================
 
 def init_clock(dut):
