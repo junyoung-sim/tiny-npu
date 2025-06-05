@@ -142,7 +142,7 @@ module TinyNPU_ctrl
   (
     .clk (clk),
     .rst (rst),
-    .en  (1),
+    .en  (1'b1),
     .d   (state_next),
     .q   (state)
   );

@@ -184,7 +184,7 @@ module TinyNPU_dpath
   Mux #(SIZE, NBITS) mac_mux
   (
     .in0 (mac_out),
-    .sel (c2d_ostream_sel),
+    .sel (c2d_ostream_sel[$clog2(SIZE)-1:0]),
     .out (x_mux_in[1])
   );
 
