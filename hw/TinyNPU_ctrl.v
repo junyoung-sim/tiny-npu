@@ -39,7 +39,7 @@ module TinyNPU_ctrl
 
   output logic                    c2d_z_out_sel,
 
-  output logic [3:0] trace_state
+  output logic [1:0] trace_state
 );
 
   //==========================================================

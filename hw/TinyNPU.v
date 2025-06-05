@@ -25,7 +25,7 @@ module TinyNPU
 
   output logic [NBITS-1:0]        z_out,
 
-  output logic [3:0]              trace_state
+  output logic [1:0]              trace_state
 );
 
   // Control

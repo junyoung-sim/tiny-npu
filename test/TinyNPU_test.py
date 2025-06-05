@@ -2,7 +2,8 @@ from TestUtil import *
 
 #===========================================================
 
-SIZE = 4
+SIZE   = 4
+LAYERS = 5
 
 LD0 = 0b00
 MAC = 0b01
@@ -72,7 +73,7 @@ async def test_case_2_single_layer(dut):
     
     z.append(relu_fp(dot))
 
-  #=========================================================
+  ###
 
   await reset(dut)
 
@@ -123,6 +124,136 @@ async def test_case_2_single_layer(dut):
       0, 0, 0,
       0, 0, ZERO_FP, LD1
     )
+  
+  # request OUT
+  await check (
+    dut, ZERO_FP, ZERO_FP,
+    0, 0, 0,
+    0, 1, ZERO_FP, LD1
+  )
+
+  # verify output stream
+  for i in range(SIZE):
+    await check (
+      dut, ZERO_FP, ZERO_FP,
+      0, 0, 0,
+      0, 0, z[i], OUT
+    )
+
+@cocotb.test()
+async def test_case_3_multi_layer(dut):
+  clock = init_clock(dut)
+
+  x = []
+  w = []
+  z = []
+
+  for i in range(SIZE):
+    x.append(rand_fp(NBITS, DBITS))
+  
+  for i in range(SIZE):
+    w_i = []
+    for j in range(SIZE):
+      w_i.append(rand_fp(NBITS, DBITS))
+    w.append(w_i)
+    
+    dot = dot_fp(x, w[i], NBITS, DBITS)
+    
+    z.append(relu_fp(dot))
+  
+  ###
+
+  await reset(dut)
+
+  x_i = 0
+  w_i = 0
+  w_j = 0
+
+  x_load_val = 1
+  w_load_val = 1
+
+  # load input and weights
+  while(x_load_val | w_load_val):
+    await check (
+      dut, x[x_i], w[w_i][w_j],
+      x_load_val, w_load_val, w_i,
+      0, 0, ZERO_FP, LD0
+    )
+
+    x_load_val = not(x_i == SIZE-1)
+    w_load_val = not((w_i == SIZE-1) & (w_j == SIZE-1))
+
+    x_i += x_load_val
+    w_j += w_load_val
+
+    if(w_j == SIZE):
+      w_i += 1
+      w_j = 0
+
+  for l in range(LAYERS):
+    # request MAC
+    await check (
+      dut, ZERO_FP, ZERO_FP,
+      0, 0, 0,
+      1, 0, ZERO_FP, (LD0 if(l == 0) else LD1)
+    )
+
+    # MAC
+    for t in range(SIZE+MAC_LAT+1):
+      await check (
+        dut, ZERO_FP, ZERO_FP,
+        0, 0, 0,
+        0, 0, ZERO_FP, MAC
+      )
+    
+    # load output stream to FIFO
+    for t in range(SIZE):
+      await check (
+        dut, ZERO_FP, ZERO_FP,
+        0, 0, 0,
+        0, 0, ZERO_FP, LD1
+      )
+    
+    if(l == LAYERS-1):
+      break
+  
+    # generate new weights and compute
+    x = z
+    w = []
+    z = []
+
+    for i in range(SIZE):
+      w_i = []
+      for j in range(SIZE):
+        w_i.append(rand_fp(NBITS, DBITS))
+      w.append(w_i)
+      
+      dot = dot_fp(x, w[i], NBITS, DBITS)
+      
+      z.append(relu_fp(dot))
+    
+    # load weights
+    w_i = 0
+    w_j = 0
+
+    x_load_val = 0
+    w_load_val = 1
+
+    # load input and weights
+    while(w_load_val):
+      await check (
+        dut, ZERO_FP, w[w_i][w_j],
+        x_load_val, w_load_val, w_i,
+        0, 0, ZERO_FP, LD1
+      )
+
+      w_load_val = not((w_i == SIZE-1) & (w_j == SIZE-1))
+
+      w_j += w_load_val
+
+      if(w_j == SIZE):
+        w_i += 1
+        w_j = 0
   
   # request OUT
   await check (
