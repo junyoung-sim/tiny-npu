@@ -38,8 +38,7 @@ Below is the coverage report for testing TinyNPU’s top-level module. Full cove
 
 ## Physical Design
 
-***Technical details beyond what is provided below cannot be shared under the non-disclosure agreement between Cornell Custom Silicon Systems, MPW (Multi-Project-Wafer) University Service (MUSE), and Taiwan Semiconductor Manufacturing Company (TSMC).
-***
+***Technical details beyond what is provided below cannot be shared under the non-disclosure agreement between Cornell Custom Silicon Systems, MPW (Multi-Project-Wafer) University Service (MUSE), and Taiwan Semiconductor Manufacturing Company (TSMC).***
 
 The MUSE TSMC 180 nm process node was used to collect power, performance, and area metrics for TinyNPU with default top-level module parameters.
 
