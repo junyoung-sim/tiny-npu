@@ -1,4 +1,4 @@
-<img width="1075" height="708" alt="image" src="https://github.com/user-attachments/assets/1c98fb69-c4f6-4d5c-948c-090d61c8dc36" /># Tiny Neural Processing Unit
+# Tiny Neural Processing Unit
 
 **Summer 2025**
 
