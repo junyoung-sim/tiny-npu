@@ -1,0 +1,312 @@
+
+Power Net Detected:
+        Voltage	    Name
+             0V	    VSS
+           1.8V	    VDD
+Using Power View: analysis_typical.
+AAE_INFO: opIsDesignInPostRouteState() is 1
+#################################################################################
+# Design Stage: PostRoute
+# Design Name: TinyNPU
+# Design Mode: 180nm
+# Analysis Mode: MMMC OCV 
+# Parasitics Mode: No SPEF/RCDB 
+# Signoff Settings: SI Off 
+#################################################################################
+Start delay calculation (fullDC) (1 T). (MEM=2615.32)
+**WARN: (IMPESI-3014):	The RC network is incomplete for net trace_state[0]. As a result, a lumped model will be used during delay calculation which may compromise timing accuracy. To resolve this, check parasitics for completeness, re-extraction may be required.
+Total number of fetched objects 2364
+AAE_INFO: Total number of nets for which stage creation was skipped for all views 0
+End delay calculation. (MEM=2638.05 CPU=0:00:00.2 REAL=0:00:00.0)
+End delay calculation (fullDC). (MEM=2638.05 CPU=0:00:00.3 REAL=0:00:01.0)
+
+Begin Power Analysis
+
+             0V	    VSS
+           1.8V	    VDD
+
+Begin Processing Timing Library for Power Calculation
+
+Ended Processing Timing Library for Power Calculation: (cpu=0:00:00, real=0:00:00, mem(process/total/peak)=2626.89MB/4934.73MB/2626.89MB)
+
+
+
+Begin Processing Power Net/Grid for Power Calculation
+
+Ended Processing Power Net/Grid for Power Calculation: (cpu=0:00:00, real=0:00:00, mem(process/total/peak)=2626.89MB/4934.73MB/2626.89MB)
+
+Begin Processing Timing Window Data for Power Calculation
+
+TinyNPU_clk(200MHz) CK: assigning clock TinyNPU_clk to net clk
+Ended Processing Timing Window Data for Power Calculation: (cpu=0:00:00, real=0:00:00, mem(process/total/peak)=2626.89MB/4934.73MB/2626.89MB)
+
+Begin Processing User Attributes
+
+Ended Processing User Attributes: (cpu=0:00:00, real=0:00:00, mem(process/total/peak)=2626.89MB/4934.73MB/2626.89MB)
+
+Begin Processing Signal Activity
+
+
+Starting Levelizing
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT)
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 10%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 20%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 30%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 40%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 50%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 60%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 70%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 80%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 90%
+
+Finished Levelizing
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT)
+
+Starting Activity Propagation
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT)
+** INFO:  (VOLTUS_POWR-1356): No default input activity has been set. Defaulting to 0.2.
+Use 'set_default_switching_activity -input_activity' command to change the default activity value.
+
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 10%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 20%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 30%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 40%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 50%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 60%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 70%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 80%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 90%
+
+Finished Activity Propagation
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT)
+Ended Processing Signal Activity: (cpu=0:00:00, real=0:00:00, mem(process/total/peak)=2626.89MB/4934.73MB/2626.89MB)
+
+Begin Power Computation
+
+      ----------------------------------------------------------
+      # of cell(s) missing both power/leakage table: 0
+      # of cell(s) missing power table: 0
+      # of cell(s) missing leakage table: 0
+      ----------------------------------------------------------
+
+
+
+Starting Calculating power
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT)
+ ... Calculating switching power
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 10%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 20%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 30%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 40%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 50%
+ ... Calculating internal and leakage power
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 60%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 70%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 80%
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT): 90%
+
+Finished Calculating power
+2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT)
+      # of MSMV cell(s) missing power_level: 0
+Ended Power Computation: (cpu=0:00:00, real=0:00:00, mem(process/total/peak)=2628.38MB/4934.73MB/2628.38MB)
+
+Begin Processing User Attributes
+
+Begin Processing set_power
+Ended Processing set_power: (cpu=0:00:00, real=0:00:00,
+mem(process/total/peak)=2628.38MB/4934.73MB/2628.38MB)
+Ended Processing User Attributes: (cpu=0:00:00, real=0:00:00, mem(process/total/peak)=2628.38MB/4934.73MB/2628.38MB)
+
+Ended Power Analysis: (cpu=0:00:00, real=0:00:00, mem(process/total/peak)=2628.38MB/4934.73MB/2628.38MB)
+
+Begin Boundary Leakage Calculation
+Ended Boundary Leakage Calculation: (cpu=0:00:00, real=0:00:00,
+mem(process/total/peak)=2628.38MB/4934.73MB/2628.38MB)
+Begin Static Power Report Generation
+*----------------------------------------------------------------------------------------
+*	Innovus 23.12-s091_1 (64bit) 07/30/2024 16:11 (Linux 3.10.0-693.el7.x86_64)
+*	
+*
+* 	Date & Time:	2025-Jun-05 03:18:18 (2025-Jun-05 07:18:18 GMT)
+*
+*----------------------------------------------------------------------------------------
+*
+*	Design: TinyNPU
+*
+*	Liberty Libraries used:
+*	        analysis_typical: /opt/tsmc-nda/pdks/tsmc-180nm/stdview/stdcells-tc.lib
+*	        analysis_typical: /opt/tsmc-nda/pdks/tsmc-180nm/stdview/iocells-tc.lib
+*
+*	Parasitic Files used:
+*
+*       Power View : analysis_typical
+*
+*       User-Defined Activity : N.A.
+*
+*       Activity File: N.A.
+*
+*       Hierarchical Global Activity: N.A.
+*
+*       Global Activity: N.A.
+*
+*       Sequential Element Activity: N.A.
+*
+*       Primary Input Activity: 0.200000
+*
+*       Default icg ratio: N.A.
+*
+*       Global Comb ClockGate Ratio: N.A.
+*
+*	Power Units = 1mW
+*
+*	Time Units = 1e-09 secs
+*
+*       report_power -hierarchy all
+*
+-----------------------------------------------------------------------------------------
+*
+
+
+
+Total Power
+-----------------------------------------------------------------------------------------
+Total Internal Power:       13.02298915 	   83.6161%
+Total Switching Power:       2.55158896 	   16.3829%
+Total Leakage Power:         0.00016594 	    0.0011%
+Total Power:                15.57474405
+-----------------------------------------------------------------------------------------
+
+
+Group                           Internal   Switching     Leakage       Total  Percentage 
+                                Power      Power         Power         Power  (%)        
+-----------------------------------------------------------------------------------------
+Sequential                         9.235      0.6387   5.814e-05       9.873       63.39
+Macro                                  0           0           0           0           0
+IO                                     0           0           0           0           0
+Combinational                      3.788       1.913   0.0001078       5.701       36.61
+Clock (Combinational)                  0           0           0           0           0
+Clock (Sequential)                     0           0           0           0           0
+-----------------------------------------------------------------------------------------
+Total                              13.02       2.552   0.0001659       15.57         100
+-----------------------------------------------------------------------------------------
+
+
+Rail                  Voltage   Internal   Switching     Leakage       Total  Percentage 
+                                Power      Power         Power         Power  (%)        
+-----------------------------------------------------------------------------------------
+VDD                       1.8      13.02       2.552   0.0001659       15.57         100
+
+
+Hierarchy                       Internal   Switching     Leakage       Total  Percentage 
+                                Power      Power         Power         Power  (%)        
+-----------------------------------------------------------------------------------------
+ctrl                              0.2569      0.1126   4.612e-06      0.3695       2.373 
+dpath                              12.77       2.439   0.0001613       15.21       97.63 
+ctrl/mac_lat_counter             0.04945    0.003188   5.363e-07     0.05264       0.338 
+ctrl/ostream_sel_reg             0.08121      0.0213   7.293e-07      0.1025      0.6582 
+ctrl/state_reg                    0.0584    0.006161   3.193e-07     0.06456      0.4145 
+dpath/x_fifo                       1.374       0.282   1.467e-05       1.656       10.63 
+dpath/g_w_fifo_0__w_fifo           1.141      0.1483   1.512e-05       1.289       8.278 
+dpath/g_w_fifo_1__w_fifo            1.13       0.141   1.463e-05       1.271       8.163 
+dpath/g_w_fifo_2__w_fifo           1.131      0.1358   1.493e-05       1.267       8.132 
+dpath/g_w_fifo_3__w_fifo           1.146      0.1508   1.545e-05       1.296       8.324 
+dpath/g_pe_0__pe                   1.707      0.3715   2.116e-05       2.078       13.34 
+dpath/g_pe_1__pe                   1.674      0.3565   2.056e-05       2.031       13.04 
+dpath/g_pe_2__pe                   1.684      0.3708   2.083e-05       2.054       13.19 
+dpath/g_pe_3__pe                   1.701      0.3772   2.115e-05       2.078       13.34 
+dpath/x_mux                      0.02426     0.02467   6.881e-07     0.04892      0.3141 
+dpath/out_mux                   0.000647           0   1.844e-07   0.0006472    0.004155 
+dpath/mac_mux                    0.05267     0.03323   1.873e-06      0.0859      0.5516 
+dpath/x_fifo/r_ptr_blk           0.09471     0.03194   1.132e-06      0.1267      0.8132 
+dpath/x_fifo/w_ptr_blk           0.09608     0.02488   1.124e-06       0.121      0.7766 
+dpath/g_w_fifo_0__w_fifo/r_ptr_blk
+                                 0.09384     0.03315   1.189e-06       0.127      0.8154 
+dpath/g_w_fifo_0__w_fifo/w_ptr_blk
+                                  0.0934     0.02174   1.381e-06      0.1151      0.7393 
+dpath/g_w_fifo_1__w_fifo/r_ptr_blk
+                                   0.099     0.03276   1.446e-06      0.1318       0.846 
+dpath/g_w_fifo_1__w_fifo/w_ptr_blk
+                                 0.08696     0.01595   1.137e-06      0.1029      0.6608 
+dpath/g_w_fifo_2__w_fifo/r_ptr_blk
+                                 0.09226     0.02961   1.157e-06      0.1219      0.7825 
+dpath/g_w_fifo_2__w_fifo/w_ptr_blk
+                                  0.0865     0.01527   1.098e-06      0.1018      0.6535 
+dpath/g_w_fifo_3__w_fifo/r_ptr_blk
+                                 0.09737     0.03658   1.243e-06      0.1339        0.86 
+dpath/g_w_fifo_3__w_fifo/w_ptr_blk
+                                  0.0871     0.01653   1.138e-06      0.1036      0.6653 
+dpath/g_pe_0__pe/s0s1_en_reg
+                                  0.0292    0.001174   2.487e-07     0.03037       0.195 
+dpath/g_pe_0__pe/s1s2_en_reg
+                                 0.02416   0.0007762   1.734e-07     0.02493      0.1601 
+dpath/g_pe_0__pe/s0_x_reg         0.2296     0.05764   2.004e-06      0.2872       1.844 
+dpath/g_pe_0__pe/s0_w_reg         0.2292     0.04848   1.957e-06      0.2777       1.783 
+dpath/g_pe_0__pe/s1_mul_reg
+                                  0.2621     0.02342   1.756e-06      0.2855       1.833 
+dpath/g_pe_0__pe/s2_sum_reg
+                                  0.2306     0.01554   1.759e-06      0.2461        1.58 
+dpath/g_pe_0__pe/s3_z_out_reg
+                                  0.2293      0.0225   1.727e-06      0.2518       1.617 
+dpath/g_pe_1__pe/s0s1_en_reg
+                                  0.0292    0.001211   2.487e-07     0.03041      0.1952 
+dpath/g_pe_1__pe/s1s2_en_reg
+                                 0.02415   0.0008011   1.734e-07     0.02496      0.1602 
+dpath/g_pe_1__pe/s0_x_reg         0.2322     0.05205   1.939e-06      0.2842       1.825 
+dpath/g_pe_1__pe/s0_w_reg         0.2267     0.04093   2.004e-06      0.2676       1.718 
+dpath/g_pe_1__pe/s1_mul_reg
+                                  0.2616     0.02334   1.756e-06       0.285        1.83 
+dpath/g_pe_1__pe/s2_sum_reg
+                                  0.2306     0.01558   1.759e-06      0.2462       1.581 
+dpath/g_pe_1__pe/s3_z_out_reg
+                                  0.2293     0.02158   1.727e-06      0.2509       1.611 
+dpath/g_pe_2__pe/s0s1_en_reg
+                                 0.02919    0.001284   2.487e-07     0.03048      0.1957 
+dpath/g_pe_2__pe/s1s2_en_reg
+                                 0.02416   0.0008448   1.734e-07       0.025      0.1605 
+dpath/g_pe_2__pe/s0_x_reg         0.2322     0.05587   1.939e-06       0.288       1.849 
+dpath/g_pe_2__pe/s0_w_reg         0.2268     0.04521   2.005e-06       0.272       1.746 
+dpath/g_pe_2__pe/s1_mul_reg
+                                  0.2618     0.02224   1.755e-06      0.2841       1.824 
+dpath/g_pe_2__pe/s2_sum_reg
+                                  0.2306      0.0152   1.759e-06      0.2458       1.578 
+dpath/g_pe_2__pe/s3_z_out_reg
+                                  0.2298     0.02106   1.737e-06      0.2509       1.611 
+dpath/g_pe_3__pe/s0s1_en_reg
+                                 0.02893    0.002181   2.308e-07     0.03111      0.1997 
+dpath/g_pe_3__pe/s1s2_en_reg
+                                 0.02616    0.001274   2.176e-07     0.02743      0.1761 
+dpath/g_pe_3__pe/s0_x_reg         0.2294     0.05688   2.004e-06      0.2863       1.838 
+dpath/g_pe_3__pe/s0_w_reg         0.2268     0.04775   2.005e-06      0.2746       1.763 
+dpath/g_pe_3__pe/s1_mul_reg
+                                  0.2587     0.02235   1.697e-06       0.281       1.804 
+dpath/g_pe_3__pe/s2_sum_reg
+                                  0.2306     0.01564   1.759e-06      0.2463       1.581 
+dpath/g_pe_3__pe/s3_z_out_reg
+                                  0.2293     0.02211   1.727e-06      0.2514       1.614 
+dpath/g_pe_0__pe/s1_multiplier
+                                  0.4724       0.202   1.154e-05      0.6744        4.33 
+dpath/g_pe_1__pe/s1_multiplier
+                                  0.4404       0.201   1.095e-05      0.6413       4.118 
+dpath/g_pe_2__pe/s1_multiplier
+                                   0.449      0.2091   1.121e-05      0.6581       4.225 
+dpath/g_pe_3__pe/s1_multiplier
+                                  0.4709       0.209   1.151e-05      0.6799       4.366 
+ 
+ 
+-----------------------------------------------------------------------------------------
+*	Power Distribution Summary: 
+*              Highest Average Power:                 dpath/U10 (OR2D2BWP7T):           0.0492
+*              Highest Leakage Power: dpath/g_pe_3__pe/s1_multiplier/U148 (INVD12BWP7T):        3.043e-07
+*                Total Cap:      3.08906e-11 F
+*                Total instances in design:  2272
+*                Total instances in design with no power:     0
+*                Total instances in design with no activty:     0
+
+*                Total Fillers and Decap:     0
+-----------------------------------------------------------------------------------------
+ 
+** INFO:  (VOLTUS_POWR-3465): There are 0 decaps and 0 fillers in the design
+
+Ended Static Power Report Generation: (cpu=0:00:00, real=0:00:00,
+mem(process/total/peak)=2630.50MB/4934.73MB/2630.50MB)
+
